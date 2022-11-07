@@ -6,11 +6,19 @@ var charUpperCase = "ABCDEFGHIJKLMNOPQRSTUZWXYZ";
 var charNumber = "0123456789";
 var charSpecial = "!#$%&'()*+-./:;<=>?@[^_`{|}~";
 
-//
+// Write password to the #password input
+function writePassword() {
+  var password = generatePassword();
+  var passwordText = document.querySelector("#password");
+
+  passwordText.value = password;
+}
 
 function generatePassword() {
   var charList = "";
+  var genPassword = "";
 
+  // Create prompt for user to enter password length, shows error message if too big or small
   var passwordLength = prompt(
     `Enter password length (Must be between 8-128 characters)`
   );
@@ -19,7 +27,7 @@ function generatePassword() {
     alert("Invalid.");
     return;
   }
-
+  // Prompts for password parameters
   var isLowercase = confirm(`Click OK if password requires lower case`);
 
   if (isLowercase) {
@@ -43,15 +51,17 @@ function generatePassword() {
   if (isSpecial) {
     charList += charSpecial;
   }
-  return charList;
-}
+  // Randomly generates password for user determined length
+  for (i = 0; i < passwordLength; i++) {
+    genPassword += charList.charAt(Math.floor(Math.random() * charList.length));
+  }
 
-// Write password to the #password input
-function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
+  if (genPassword == "") {
+    var error = "Try again!";
+    return error;
+  }
 
-  passwordText.value = password;
+  return genPassword;
 }
 
 // Add event listener to generate button
